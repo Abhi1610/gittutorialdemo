@@ -1,0 +1,183 @@
+Hbase
+To start hbase write this command:
+$hbase shell
+hbase(main):001:0>
+
+Table:
+To see table list write command:
+hbase(main):001:0> list
+Table
+0 row(s) in 0.4940 seconds
+
+Create table:
+We can create a table using create keyword:
+Syntax:
+> create ‘<table name>’,’<column family>’
+Example:
+> create 'emp', 'personal data', 'professional data'
+> List
+Table
+emp
+
+Disable table:
+Before drop table there is command to disable the table.
+Syntax:
+> disable ‘table_name’
+Example
+> disable 'emp'
+> disable_all 'e.*'
+
+Enable table:
+We can do enable again disabled table.
+Syntax:
+> enable ‘table_name’
+Example
+> enable ‘emp’
+To check is enable or not 
+> is_enabled ‘emp’
+true
+
+
+Describe table: 
+To see detail of table
+Syntax:
+> describe ‘table_name’
+Example
+> describe ‘emp’
+
+
+Alter table:
+we can change in existing table using alter
+Syntax:
+> alter 't1', NAME => 'f1', VERSIONS => 5
+Example
+> alter 'emp', NAME => 'personal data', VERSIONS => 5
+
+
+Exist:
+To check table is existing in hbase or not.
+Syntax:
+> exists ‘table_name’
+Example
+> exists ‘emp’
+
+Drop table:
+We can drop the table after disabled.
+Syntax:
+> drop ‘table_name’
+Example
+> disable ‘emp’
+> drop 'emp'
+
+Insert data into Table:
+Put:
+Using put command we can store data into hbase:
+Syntax:
+> put ’<table name>’,’row1’,’<col_family:col_name>’,’<value>’
+Example:
+First row
+> put 'emp','1','personal data:id','101'
+
+> put 'emp','1','personal data:name','Hemant'
+
+> put 'emp','1','professional data:salary','20000'
+
+> put 'emp','1','professional data:city','Rajasthan'
+
+Second row
+> put 'emp','2','personal data:id','102'
+
+> put 'emp','2','personal data:name','Vikash'
+
+> put 'emp','2','professional data:salary','30000'
+
+> put 'emp','2','professional data:city','Madhya Pradesh'
+
+Third row:
+> put 'emp','3','personal data:id','103'
+
+> put 'emp','3','personal data:name','Ambuj'
+
+> put 'emp','3','professional data:salary','25000
+
+> put 'emp','3','professional data:city','Bihar'
+
+To see data:
+> scan 'emp'
+
+Update data in Table:
+We can update data in column family in table
+Syntax:
+> put ‘table name’,’row ’,'Column family:column name',’new value’
+Example:
+Now we adding new column with new column family
+> put 'emp','row1','personal:city','Delhi'	
+
+Delete data from table:
+We can delete data from column family in table
+Syntax:
+> delete ‘<table name>’, ‘<row>’, ‘<column name >’, ‘<time stamp>’
+Example:
+> delete 'emp', '1', 'personal data:city', 1417521848375
+Note: you can delete all data from table:
+Syntax:
+> deleteall ’<table name>’,’<row>’
+Example:
+> deleteall 'emp','1'
+> scan 'emp'
+
+Count and Truncate:
+Count:
+We can count no of rows:
+Synatx:
+> count ‘<table name>’
+Example:
+> count 'emp'
+
+Truncate:
+We can disable, drop and recreate an able:
+Syntax:
+> truncate 'table name'
+Example:
+> truncate 'emp
+> scan 'emp'
+
+Hbase Security:
+Grant:
+Using this we can give several privileges (read, write and execute) to particular user.
+Syntax:
+> grant <user> <permissions> [<table> [<column family> [<column qualifier>]]
+
+R - read privilege.
+W - write privilege.
+X - execute privilege.
+C - create privilege.
+A - admin privilege
+Example:
+> grant 'Prwatech', 'RWXCA'
+prwatech is user here
+
+Revoke:
+revoke is used to revoke a user's access rights of a table
+Syntax:
+> revoke <user>
+Example:
+> revoke 'prwatech'
+
+
+User permission:
+Use for list all the permissions for a particular table
+Syntax:
+> user_permission ‘tablename’
+Example:
+> user_permission 'emp’
+
+
+
+
+
+
+
+service hbase-regionserver restart
+service hbase-master restart
+
