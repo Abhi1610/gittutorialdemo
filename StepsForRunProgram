@@ -1,0 +1,19 @@
+Mapreduce in java
+step 1:
+create new java project
+step 2:
+create new class
+step 3:
+Add external jar files in side the java project 
+Right click on project->build path->Configure build path->select all jar files
+step 4:
+Export jar file into desktop for sent the file into hdfs
+step 5:
+hadoop fs -put WP.jar  /user/cloudera/WpOutut
+
+step 6:perform map reduce program to show the output
+
+hadoop jar WP.jar WithPartitioner /user/cloudera/inputEx/ /user/cloudera/wpoutput/
+hadoop jar WC.jar WordCount /user/cloudera/inputEx/ /user/cloudera/WCoutput1
+
+
