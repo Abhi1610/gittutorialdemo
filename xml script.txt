@@ -1,0 +1,15 @@
+A =  LOAD '/home/cloudera/Desktop/book.xml' using org.apache.pig.piggybank.storage.XMLLoader('BOOK') as (x:chararray);
+
+
+
+ B = foreach A GENERATE FLATTEN(REGEX_EXTRACT_ALL(x,'<BOOK>\\s*<TITLE>(.*)</TITLE>\\s*<AUTHOR>(.*)</AUTHOR>\\s*<COUNTRY>(.*)</COUNTRY>\\s*<COMPANY>(.*)</COMPANY>\\s*<PRICE>(.*)</PRICE>\\s*<YEAR>(.*)</YEAR>\\s*</BOOK>'));
+
+
+
+
+B = FOREACH A GENERATE XPath(x, 'BOOK/AUTHOR'), XPath(x, 'BOOK/PRICE');
+
+
+
+
+ B = FOREACH A GENERATE org.apache.pig.piggybank.evaluation.xml.XPath(x, 'BOOK/AUTHOR')
