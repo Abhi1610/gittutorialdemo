@@ -1,0 +1,179 @@
+Topic 1: create and Load Data into table
+
+[cloudera@quickstart ~]$ cd Desktop
+
+[cloudera@quickstart Desktop]$ cat emp
+
+1,Abhishek,50000,IT
+2,Abhi,40000,HR
+3,kkk,6666,Finance
+4,llll,80000,sales
+
+[cloudera@quickstart Desktop]$ hadoop fs -put emp /user/cloudera
+[cloudera@quickstart Desktop]$ hadoop fs -ls /user/cloudera
+
+
+[cloudera@quickstart Desktop]$ hadoop fs -cat /user/cloudera/emp
+
+create table emp
+(
+id int,
+name string,
+sal int,
+dname string
+)
+row format delimited
+fields terminated by ',';
+
+load data inpath '/user/cloudera/emp' overwrite into table emp;
+
+Topic 2 : Hive Aggregation Functions(sum,max,min,count,avg)
+
+show tables; //to check tables available in database
+
+select sum(sal) from emp;
+
+select max(sal) from emp;
+
+select min(sal) from emp;
+
+select count(*) from emp;
+
+select avg(sal) from emp;
+
+Topic 3:-Hive Limit clause | hive create table as query | rename table in hive
+
+select * from emp limit 2
+
+create table employee as select id,name,dname from emp;
+
+alter table employee rename to emp1
+
+create table updated_emp like emp;
+
+Topic 4:hive order by query
+select * from emp order by id desc;
+select * from emp sort by name desc;
+
+Topic 5 : Hive Join Queries | inner join 
+
+select sales.*,product.* from sales join product on (sales.id=product.pid);
+ 
+create table sales
+(
+name string,
+id int
+)
+row format delimited
+fields terminated by ',';
+
+create table product
+(
+pid int,
+name string
+)
+row format delimited
+fields terminated by ',';
+
+load data inpath '/user/cloudera/Sales1' overwrite into table sales;
+load data inpath '/user/cloudera/product1' overwrite into table product;
+
+select sales.*,product.* from sales join product on sales.id=product.pid;
+
+Topic 6 : Hive outer join | Left | right | Full outer join
+
+select sales.*,product.* from sales left join product on sales.id=product.pid;
+select sales.*,product.* from sales right join product on sales.id=product.pid;
+select sales.*,product.* from sales Full join product on sales.id=product.pid;
+
+Topic 7 : Advance DataTypes in Hive | Hive Array | Hive Map | Hive struct
+
+primitive Data types
+int
+string
+float
+double
+
+Advanced datatype
+array
+map
+struct
+
+Abhi sai,rahul,sagar,akshay,siddesh  personal:9887456,office:125463    TCS,412365,yes,100000
+aniket prakash,amit,abhay,abhishek   personal:784512369,office:36548621  L&t,45678,yes,90000
+
+hadoop fs -put personal_info /user/cloudera
+create table personal_info1
+(
+name string,
+friends array<string>,
+mobile map<string,bigint>,
+other_info struct<company:string,pin:int,married:string,salary:int>
+)
+row format delimited
+fields terminated by '\t'
+collection items terminated by ','
+map keys terminated by ':' 
+lines terminated by '\n';
+
+load data inpath '/user/cloudera/personal_info' overwrite into table personal_info1;
+load data local inpath '/home/cloudera/Desktop/personal_info' overwrite into table personal_info1;
+
+select * from personal_info1;
+
+select Name from personal_info1;
+
+select name,mobile['office'] from personal_info1;
+
+select name,friends[0] from personal_info1;
+
+
+Topic 8 : Hive Partitioned table | create a partion table in hive
+
+create table peoples
+(first_name string,
+last_name string,
+city string)
+row format delimited
+fields terminated by ',';
+
+load data local inpath '/home/cloudera/Desktop/partitionpractical' overwrite into table peoples;
+
+
+create table part_people_city(first_name string, last_name string) partitioned by (city string);
+show tables;
+
+insert overwrite table part_people_city partition (city) select * from peoples;
+
+hive> SET hive.exec.dynamic.partition=true;
+hive> SET hive.exec.dynamic.partition.mode=non-strict;
+hive> SET hive.enforce.bucketing =true;​
+
+Topic 9 : Alter table in hive | change column position in hive table
+
+desc peoples:
+add new column:
+alter table peoples add columns (pincode int);
+change position of columns:
+alter table peoples add columns (pincode int);
+
+Topic 10 : change hive table column name | alter table in hive
+
+alter table peoples change last_name surname string;
+
+Topic 11:Hive Difference between sort by & order by | sort by Vs order by 
+
+sort by : its work on map and reduce diffrent diffent for example
+map 1 will produce diff outout in reduce1
+map 2 will produce diff output in reduce2 
+after the process it will murge 
+
+order by : its work on whole data so that output comes in single and proper order;
+
+
+Topic 12: Hive Bucketing | Bucketing in Hive | Create a bucketed table in hive  
+
+
+
+
+
